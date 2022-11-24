@@ -11,6 +11,12 @@ window.fill(BG_Color)
 
 Draw_Tree(Tree)
 
+def MiniMax_(player):
+    if player == 1 :
+        MiniMax(Tree, player)
+    elif player == -1:
+        MiniMax(Tree, player)
+
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/Roboto-Black.ttf", size)
 
@@ -83,17 +89,119 @@ def select():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if MiniMax_BUTTON.checkForInput(PLAY_MOUSE_POS):
-                    Display_MiniMax()
+                    select_Player_MiniMax()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if NegaMax_BUTTON.checkForInput(PLAY_MOUSE_POS):
-                    Display_NegaMax()
+                    select_Player_NegaMax()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if AlphaBeta_BUTTON.checkForInput(PLAY_MOUSE_POS):
-                    Display_NegaMaxAlphaBetaPruning()
+                    select_Player_AlphaBeta()
 
         pygame.display.update()
 
-def Display_MiniMax():
+def select_Player_MiniMax():
+    while True:
+        window.fill(BG_Color)
+
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(50).render("Choisissez votre joueur", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
+
+        Min_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(Width/3, Hight/2), 
+                                text_input="Min", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        Max_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(2 *Width/3, Hight/2), 
+                                text_input="Max", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        window.blit(MENU_TEXT, MENU_RECT)
+        
+        for button in [Min_BUTTON, Max_BUTTON]:
+                button.changeColor(PLAY_MOUSE_POS)
+                button.update(window)
+        
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Min_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_MiniMax(-1)
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Max_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_MiniMax(1)
+
+        pygame.display.update()
+
+def select_Player_NegaMax():
+    while True:
+        window.fill(BG_Color)
+
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(50).render("Choisissez votre joueur", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
+
+        Min_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(Width/3, Hight/2), 
+                                text_input="Min", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        Max_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(2 *Width/3, Hight/2), 
+                                text_input="Max", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        window.blit(MENU_TEXT, MENU_RECT)
+        
+        for button in [Min_BUTTON, Max_BUTTON]:
+                button.changeColor(PLAY_MOUSE_POS)
+                button.update(window)
+        
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Min_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_NegaMax(-1)
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Max_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_NegaMax(1)
+
+        pygame.display.update()
+
+def select_Player_AlphaBeta():
+    while True:
+        window.fill(BG_Color)
+
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(50).render("Choisissez votre joueur", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
+
+        Min_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(Width/3, Hight/2), 
+                                text_input="Min", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        Max_BUTTON = Button(image=pygame.image.load("assets/Rect.png"), pos=(2 *Width/3, Hight/2), 
+                                text_input="Max", font=get_font(70), base_color="#d7fcd4", hovering_color="White")
+
+        window.blit(MENU_TEXT, MENU_RECT)
+        
+        for button in [Min_BUTTON, Max_BUTTON]:
+                button.changeColor(PLAY_MOUSE_POS)
+                button.update(window)
+        
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Min_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_NegaMaxAlphaBetaPruning(-1)
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if Max_BUTTON.checkForInput(PLAY_MOUSE_POS):
+                            Display_NegaMaxAlphaBetaPruning(1)
+
+        pygame.display.update()
+
+def Display_MiniMax(player):
     loop = True
     while loop :
         window.fill(BG_Color)
@@ -105,7 +213,7 @@ def Display_MiniMax():
         MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
         window.blit(MENU_TEXT, MENU_RECT)
 
-        MiniMax(Tree, 1)
+        MiniMax(Tree, player)
         loop = False
     loop = True
     while loop:
@@ -127,7 +235,7 @@ def Display_MiniMax():
                     select()
         pygame.display.update()
 
-def Display_NegaMax():
+def Display_NegaMax(player):
     loop = True
     while loop :
         window.fill(BG_Color)
@@ -139,7 +247,7 @@ def Display_NegaMax():
         MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
         window.blit(MENU_TEXT, MENU_RECT)
 
-        NegaMax(Tree, 1)
+        NegaMax(Tree, player)
         loop = False
     loop = True
     while loop:
@@ -161,7 +269,7 @@ def Display_NegaMax():
                     select()
         pygame.display.update()
 
-def Display_NegaMaxAlphaBetaPruning():
+def Display_NegaMaxAlphaBetaPruning(player):
     loop = True
     while loop :
         window.fill(BG_Color)
@@ -172,7 +280,7 @@ def Display_NegaMaxAlphaBetaPruning():
         MENU_RECT = MENU_TEXT.get_rect(center=(Width/2, 100))
         window.blit(MENU_TEXT, MENU_RECT)
 
-        NegaMaxAlphaBetaPruning(Tree, 1)
+        NegaMaxAlphaBetaPruning(Tree, player)
         loop = False
     loop = True
     while loop:
@@ -192,5 +300,5 @@ def Display_NegaMaxAlphaBetaPruning():
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     select()
         pygame.display.update()
-
+   
 main_menu()
